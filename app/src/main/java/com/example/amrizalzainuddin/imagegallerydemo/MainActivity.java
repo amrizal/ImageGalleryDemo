@@ -2,7 +2,11 @@ package com.example.amrizalzainuddin.imagegallerydemo;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
@@ -60,8 +64,21 @@ public class MainActivity extends AppCompatActivity {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inMutable = true;
+
+            Bitmap bmp = BitmapFactory.decodeFile(picturePath, options);
+            int y = bmp.getHeight()/2;
+            int x = bmp.getWidth()/2;
+            Canvas canvas = new Canvas(bmp);
+
+            Paint myPaint = new Paint();
+            myPaint.setColor(Color.YELLOW);
+            myPaint.setTextSize(25);
+            canvas.drawText("Sample Text", x, y, myPaint);
+
             ImageView imageView = (ImageView) findViewById(R.id.imgView);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            imageView.setImageBitmap(bmp);
         }
     }
 
